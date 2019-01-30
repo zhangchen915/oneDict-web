@@ -5,6 +5,25 @@
     overflow: hidden;
 }
 
+::selection {
+    background: rgba(255, 255, 255, 0.4);
+    color: inherit;
+}
+
+::-webkit-scrollbar {
+    height: 12px;
+    width: 12px
+}
+
+::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: #c2c2c2;
+    min-height: 28px
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: transparent
+}
 
 body {
     margin: 0;
