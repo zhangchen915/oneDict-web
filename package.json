@@ -15,11 +15,15 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "accessible-autocomplete": "^1.6.2",
-    "pako": "^1.0.8"
+    "pako": "^1.0.8",
+    "preact": "^8.4.1",
+    "preact-i18n": "^1.2.2",
+    "preact-virtual-list": "^0.3.1"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.2.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
-    "@babel/plugin-transform-runtime": "^7.2.0"
+    "node-sass": "^4.11.0"
   }
 }

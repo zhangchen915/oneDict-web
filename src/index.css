@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    box-sizing: border-box;
+    font: 1em/1.5 "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    background-image: linear-gradient(-120deg, #26e289, #1a5fa2 100%, red 200%);
+}
+
+.wrap {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-row-gap: 20px;
+}
+
+.title {
+    grid-row: 1;
+    grid-column: 1/13;
+    text-align: center;
+}
