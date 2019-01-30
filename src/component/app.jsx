@@ -37,7 +37,7 @@ export default class App extends Component {
                 <input class="file-input" type="file" onChange={e => this.getFile(e)} multiple/>
             </div>
 
-            <Search lookup={this.state.lookup} setDefinition={e => this.setDefinition(e)}/>
+            <Search className='search' lookup={this.state.lookup} setDefinition={e => this.setDefinition(e)}/>
 
             <div className='definition' dangerouslySetInnerHTML={{ __html: this.state.definition }} />
         </div>);

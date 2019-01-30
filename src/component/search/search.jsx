@@ -23,7 +23,6 @@ export default class Search extends Component {
 
     async setDefinition() {
         this.props.setDefinition(await this.props.lookup.getDefinition(this.state.word, this.state.offset))
-
     }
 
     async handleInputChange(e) {
@@ -40,10 +39,12 @@ export default class Search extends Component {
     render() {
         return (<div className="search">
             <input type="text"
+                   disabled={!this.props.lookup}
                    value={this.state.word}
+                   placeholder={'请输入单词'}
                    onKeyUp={e => this.handleKeyUp(e)}
                    onChange={e => this.handleInputChange(e)}/>
-            {this.state.data && <VirtualList
+            {!!this.state.data.length && <VirtualList
                 class="list"
                 data={this.state.data}
                 renderRow={row => <div className={'row'} data-offset={row.offset}>{row.valueOf()}</div>}
