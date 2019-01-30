@@ -208,6 +208,6 @@ export function parse_mdict(file) {
         await read_record_block(await read(pos, recordSummary.index_len), recordSummary);
 
         // LOOKUP[ext].description = attrs.Description;
-        return new Lookup(read, RECORD_BLOCK_TABLE, _adaptKey, slicedKeyBlock, KEY_INDEX, scan, stylesheet).setExt(ext);
+        return new Lookup(read, RECORD_BLOCK_TABLE, _adaptKey, slicedKeyBlock, KEY_INDEX, scan, stylesheet, ext)
     });
 }

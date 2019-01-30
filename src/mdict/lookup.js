@@ -3,12 +3,12 @@ import {resolve, harvest, parseRes} from "./util";
 let UNDEFINED = void 0;
 
 export class Lookup {
-    constructor(read, RECORD_BLOCK_TABLE, adaptKey, slicedKeyBlock, KEY_INDEX, scan, stylesheet) {
+    constructor(read, RECORD_BLOCK_TABLE, adaptKey, slicedKeyBlock, KEY_INDEX, scan, stylesheet, ext) {
         [this.read, this.RECORD_BLOCK_TABLE, this.adaptKey, this.slicedKeyBlock, this.KEY_INDEX, this.scan, this.stylesheet] = Array.from(arguments);
-
+        this.getWordList = ext === 'mdx' ? this.mdx : this.mdd;
         this.cached_keys;             // cache latest keys
-        this.trail = null;                   // store latest visited record block & position when search for candidate keys
-        this.mutual_ticket = 0;        // a oneway increased ticket used to cancel unfinished pattern match
+        this.trail = null;            // store latest visited record block & position when search for candidate keys
+        this.mutual_ticket = 0;       // a oneway increased ticket used to cancel unfinished pattern match
     }
 
     /**
@@ -248,10 +248,13 @@ export class Lookup {
 
     /**
      * Find word definition for given keyinfo object.
-     * @param keyInfo a object with property of record's offset and optional size for the given keyword
      * @return PromiseLike<resolved | never> | never> promise object which will resolve to definition in text. Link to other keyword is followed to get actual definition.
+     * @param word
+     * @param offset
      */
-    findWord(keyInfo) {
+    getDefinition(word, offset) {
+        let keyInfo =new String(word);
+        keyInfo.offset = offset;
         let block = this.RECORD_BLOCK_TABLE.find(keyInfo.offset);
         return this.read(block.comp_offset, block.comp_size).then(data => {
             return this.readDefinition(data, block, keyInfo);
@@ -282,15 +285,8 @@ export class Lookup {
 
             return this.seekVanguard(word).then(([kdx, idx, list]) => {
                 list = list.slice(idx);
-                if (offset !== UNDEFINED) {
-                    list = this.matchOffset(list, offset);
-                } else {
-                    list = list.filter(e => {
-                        return e.toLowerCase() === word;
-                    });
-                }
-                console.log(list);
-                return harvest(list.map(e => this.findWord(e)));
+                if (offset !== UNDEFINED) list = this.matchOffset(list, offset);
+                return list;
             });
         } else {
             return this.matchKeys(query.phrase, query.max, query.follow);
@@ -314,8 +310,4 @@ export class Lookup {
             }
         });
     }
-
-    setExt(ext) {
-        return (ext === 'mdx' ? this.mdx : this.mdd).bind(this);
-    };
 }
