@@ -32,7 +32,7 @@ export default class Search extends Component {
     async handleKeyUp(e) {
         this.setState({
             word: e.currentTarget.value,
-            data: await this.props.lookup.getWordList(this.state.word)
+            data: await this.props.lookup.getWordList(e.currentTarget.value)
         });
     }
 
