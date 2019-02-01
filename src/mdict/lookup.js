@@ -253,13 +253,13 @@ export class Lookup {
      * @param offset
      */
     getDefinition(word, offset) {
-        let keyInfo =new String(word);
+        let keyInfo = new String(word);
         keyInfo.offset = offset;
         let block = this.RECORD_BLOCK_TABLE.find(keyInfo.offset);
         return this.read(block.comp_offset, block.comp_size).then(data => {
             return this.readDefinition(data, block, keyInfo);
         }).then(definition => {
-            definition = parseRes(definition, this.stylesheet);
+            if (this.stylesheet.length) definition = parseRes(definition, this.stylesheet);
             return this.redirects(definition)
         });
     }
