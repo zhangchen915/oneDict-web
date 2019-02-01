@@ -1,15 +1,17 @@
 import {h, Component} from 'preact';
 import {withText, Text} from 'preact-i18n';
-import Autocomplete from 'accessible-autocomplete/preact'
 import Search from '../component/search/search'
 import './app.scss'
 import {parse_mdict} from "../mdict/mdict-parser";
+
+import TTF, {speak} from './ttf/ttf'
 
 export default class App extends Component {
     constructor() {
         super();
         this.state = {
             fileHint: 'or drag and drop files here',
+            word: '',
             definition: ''
         };
     }
@@ -22,9 +24,10 @@ export default class App extends Component {
         });
     }
 
-    setDefinition(e) {
+    setDefinition(word, definition) {
         this.setState({
-            definition: e
+            word: word,
+            definition: definition
         })
     }
 
@@ -37,9 +40,19 @@ export default class App extends Component {
                 <input class="file-input" type="file" onChange={e => this.getFile(e)} multiple/>
             </div>
 
-            <Search className='search' lookup={this.state.lookup} setDefinition={e => this.setDefinition(e)}/>
+            <TTF className="voice"/>
 
-            <div className='definition' dangerouslySetInnerHTML={{ __html: this.state.definition }} />
+            <Search className='search' lookup={this.state.lookup} setDefinition={(w, d) => this.setDefinition(w, d)}/>
+
+            <div className='definition'>
+                {
+                    this.state.definition && <div className="voice-icon" onClick={() => {
+                        speak(this.state.word)
+                    }}/>
+                }
+                <div dangerouslySetInnerHTML={{__html: this.state.definition}}/>
+            </div>
+
         </div>);
     }
 }

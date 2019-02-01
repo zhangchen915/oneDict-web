@@ -30,7 +30,7 @@ body {
     margin: 0;
     min-height: 100vh;
     box-sizing: border-box;
-    color: #333;
+    color: #323232;
     font: 1em/1.5 "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
     background-image: linear-gradient(-120deg, #26e289, #1a5fa2 100%, red 200%);
 }
@@ -92,17 +92,32 @@ body {
     }
 }
 
-.search {
+.voice{
     grid-row: 3;
+    grid-column: 1/2;
+}
+
+.search {
+    grid-row: 4;
     grid-column: 1/2;
     @extend %border;
     background: transparent;
 }
 
 .definition {
-    grid-row: 2/5;
+    grid-row: 2/6;
     grid-column: 2/5;
+    position: relative;
     @extend %border;
     padding: 10px;
     background: rgba(255, 255, 255, .25);
+    .voice-icon{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: url("../assets/voice.svg") no-repeat center;
+        cursor: pointer;
+    }
 }
