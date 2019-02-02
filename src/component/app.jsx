@@ -4,7 +4,8 @@ import Search from '../component/search/search'
 import './app.scss'
 import {parse_mdict} from "../mdict/mdict-parser";
 
-import TTF, {speak} from './ttf/ttf'
+import TTF from './ttf/ttf';
+import Definition from './definition/definition'
 
 export default class App extends Component {
     constructor() {
@@ -44,14 +45,7 @@ export default class App extends Component {
 
             <Search className='search' lookup={this.state.lookup} setDefinition={(w, d) => this.setDefinition(w, d)}/>
 
-            <div className='definition'>
-                {
-                    this.state.definition && <div className="voice-icon" onClick={() => {
-                        speak(this.state.word)
-                    }}/>
-                }
-                <div dangerouslySetInnerHTML={{__html: this.state.definition}}/>
-            </div>
+            <Definition word={this.state.word} definition={this.state.definition}/>
 
         </div>);
     }
