@@ -8,17 +8,18 @@ export default class Definition extends Component {
     constructor() {
         super();
         this.state = {
+            selectWord: '',
             locate: {},
         };
     }
 
     open() {
         let s = window.getSelection();
-        let oRange = s.getRangeAt(0); //get the text range
+        let oRange = s.getRangeAt(0);
         let oRect = oRange.getBoundingClientRect();
         console.log(s, oRect)
-        if (oRange.startContainer !== oRange.endContainer) this.setState({
-            open: true,
+        if (s.anchorOffset !== s.extentOffset) this.setState({
+            selectWord: s.toString(),
             locate: {
                 width: oRect.width,
                 left: oRect.x,
@@ -28,7 +29,7 @@ export default class Definition extends Component {
     }
 
     close() {
-        this.setState({open: false})
+        this.setState({selectWord: ''})
     }
 
     render() {
@@ -46,8 +47,12 @@ export default class Definition extends Component {
             <div onMouseUp={event => this.open(event)} onDblClick={event => this.open(event)}
                  dangerouslySetInnerHTML={{__html: this.props.definition}}/>
             {
-                this.state.open && <Portal into="body">
+                this.state.selectWord && <Portal into="body">
                     <div class="popup" style={popupStyle}>
+                        <div onClick={() => this.props.search(this.state.selectWord)}>🔍</div>
+                        {/*<div onClick={event => this.copy()}>📋</div>*/}
+                        <div onClick={event => this.copy()}>🏷</div>
+                        <div onClick={event => speak(this.state.selectWord)}>🔊</div>
                         <div onClick={event => this.close()}>×</div>
                     </div>
                 </Portal>

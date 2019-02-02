@@ -22,7 +22,7 @@ export default class Search extends Component {
     }
 
     async setDefinition() {
-        this.props.setDefinition(this.state.word, await this.props.lookup.getDefinition(this.state.word, this.state.offset))
+        this.props.setDefinition(this.state.word, this.state.offset)
     }
 
     async handleInputChange(e) {

@@ -25,11 +25,18 @@ export default class App extends Component {
         });
     }
 
-    setDefinition(word, definition) {
-        this.setState({
+    async search(word, offset) {
+        if (!offset) {
+            const list = await this.state.lookup.getWordList(word.trim());
+            if (word === list[0]) offset = list[0].offset
+        }
+
+        if (offset) this.setState({
             word: word,
-            definition: definition
-        })
+            definition: await this.state.lookup.getDefinition(offset)
+        });
+
+        return offset;
     }
 
     render() {
@@ -43,9 +50,9 @@ export default class App extends Component {
 
             <TTF className="voice"/>
 
-            <Search className='search' lookup={this.state.lookup} setDefinition={(w, d) => this.setDefinition(w, d)}/>
+            <Search className='search' lookup={this.state.lookup} setDefinition={(w, o) => this.search(w, o)}/>
 
-            <Definition word={this.state.word} definition={this.state.definition}/>
+            <Definition word={this.state.word} definition={this.state.definition} search={(w) => this.search(w)}/>
 
         </div>);
     }

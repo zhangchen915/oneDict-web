@@ -199,8 +199,8 @@ export class Lookup {
      * Match the first element in list with given offset.
      */
     matchOffset(list, offset) {
-        return list.some(function (el) {
-            return el.offset === offset ? list = [el] : false;
+        return list.some(el => {
+            el.offset === offset ? list = [el] : false;
         }) ? list : [];
     }
 
@@ -208,12 +208,12 @@ export class Lookup {
      * Read definition in text for given keyinfo object.
      * @param input record block sliced from the file
      * @param block record block index
-     * @param keyInfo a object with property of record's offset and optional size for the given keyword
+     * @param offset
      * @return definition in text
      */
-    readDefinition(input, block, keyInfo) {
+    readDefinition(input, block, offset) {
         let scanner = this.scan.init(input).readBlock(block.comp_size, block.decomp_size);
-        scanner.forward(keyInfo.offset - block.decomp_offset);
+        scanner.forward(offset - block.decomp_offset);
         return scanner.readText();
     }
 
@@ -252,12 +252,10 @@ export class Lookup {
      * @param word
      * @param offset
      */
-    getDefinition(word, offset) {
-        let keyInfo = new String(word);
-        keyInfo.offset = offset;
-        let block = this.RECORD_BLOCK_TABLE.find(keyInfo.offset);
+    getDefinition(offset) {
+        let block = this.RECORD_BLOCK_TABLE.find(offset);
         return this.read(block.comp_offset, block.comp_size).then(data => {
-            return this.readDefinition(data, block, keyInfo);
+            return this.readDefinition(data, block, offset);
         }).then(definition => {
             if (this.stylesheet.length) definition = parseRes(definition, this.stylesheet);
             return this.redirects(definition)
