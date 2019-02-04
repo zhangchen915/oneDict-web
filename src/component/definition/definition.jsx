@@ -5,37 +5,43 @@ import Portal from 'preact-portal';
 import './definition.scss'
 
 export default class Definition extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
+            word: props.word,
             selectWord: '',
             locate: {},
         };
     }
 
-    open() {
-        let s = window.getSelection();
-        let oRange = s.getRangeAt(0);
-        let oRect = oRange.getBoundingClientRect();
-        console.log(s, oRect)
-        if (s.anchorOffset !== s.extentOffset) this.setState({
-            selectWord: s.toString(),
-            locate: {
-                width: oRect.width,
-                left: oRect.x,
-                top: oRect.y + oRect.height
-            }
-        })
+    componentDidUpdate() {
+        if (this.props.word !== this.state.word) {
+            this.definition.innerHTML = this.props.definition;
+            this.setState({
+                word: this.props.word
+            })
+        }
     }
 
-    close() {
-        this.setState({selectWord: ''})
+    handleMouseUp() {
+        let s = window.getSelection();
+        let position = s.getRangeAt(0).getBoundingClientRect();
+
+        const DOCUMENT_SCROLL_TOP = window.pageXOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        this.setState(s.anchorOffset !== s.extentOffset ? {
+            selectWord: s.toString(),
+            locate: {
+                width: position.width,
+                left: position.x,
+                top: position.y + position.height + DOCUMENT_SCROLL_TOP
+            }
+        } : {selectWord: ''})
     }
 
     render() {
         const popupStyle = {
             top: this.state.locate.top,
-            left: this.state.locate.left, // note the capital 'W' here
+            left: this.state.locate.left,
         };
 
         return (<div className='definition'>
@@ -44,16 +50,16 @@ export default class Definition extends Component {
                     speak(this.props.word)
                 }}/>
             }
-            <div onMouseUp={event => this.open(event)} onDblClick={event => this.open(event)}
-                 dangerouslySetInnerHTML={{__html: this.props.definition}}/>
+            <div onMouseUp={event => this.handleMouseUp(event)}
+                 onDblClick={event => this.handleMouseUp(event)}
+                 ref={definition => this.definition = definition}
+            />
             {
                 this.state.selectWord && <Portal into="body">
                     <div class="popup" style={popupStyle}>
                         <div onClick={() => this.props.search(this.state.selectWord)}>🔍</div>
-                        {/*<div onClick={event => this.copy()}>📋</div>*/}
-                        <div onClick={event => this.copy()}>🏷</div>
-                        <div onClick={event => speak(this.state.selectWord)}>🔊</div>
-                        <div onClick={event => this.close()}>×</div>
+                        <div onClick={() => this.copy()}>📋</div>
+                        <div onClick={() => speak(this.state.selectWord)}>🔊</div>
                     </div>
                 </Portal>
             }

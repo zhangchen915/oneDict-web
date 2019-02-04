@@ -1,4 +1,8 @@
-.popup{
+.popup {
     position: absolute;
     border: 1px dashed white;
+    background-color: white;
+    div {
+        display: inline-block;
+    }
 }
