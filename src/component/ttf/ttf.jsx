@@ -10,13 +10,14 @@ export function speak(word) {
     speechSynthesis.speak(utterThis);
 }
 
+// TODO 有道词典发音 http://dict.youdao.com/dictvoice?audio=hello
+
 export default class TTF extends Component {
     constructor() {
         super();
         this.state = {
             voices: [],
-            value: 0,
-            data: []
+            value: 0
         };
 
         speechSynthesis.onvoiceschanged = () => {

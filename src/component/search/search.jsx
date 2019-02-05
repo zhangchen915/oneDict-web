@@ -30,7 +30,7 @@ export default class Search extends Component {
     }
 
     async handleKeyUp(e) {
-        if (e.key === "Enter" && this.state.word) {
+        if (e.key === "Enter" && (this.state.word !== e.currentTarget.value)) {
             this.setState({
                 word: e.currentTarget.value,
                 offset: this.state.data[0].offset,
