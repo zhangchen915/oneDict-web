@@ -1,5 +1,3 @@
-import 'babel-polyfill';
-
 import {h, render} from 'preact';
 import {IntlProvider} from 'preact-i18n';
 import definition from './i18n/zh.json';
