@@ -38,6 +38,22 @@ export default class Definition extends Component {
         } : {selectWord: ''})
     }
 
+    handlePopupClick(e) {
+        e.preventDefault();
+        switch (e.target.innerHTML) {
+            case '🔍':
+                this.props.search(this.state.selectWord);
+                break;
+            // case '📋':
+            //     document.execCommand("copy");
+            //     break;
+            case '🔊':
+                speak(this.state.selectWord);
+                break
+        }
+        this.setState({selectWord: ''})
+    }
+
     render() {
         const popupStyle = {
             top: this.state.locate.top,
@@ -56,10 +72,10 @@ export default class Definition extends Component {
             />
             {
                 this.state.selectWord && <Portal into="body">
-                    <div class="popup" style={popupStyle}>
-                        <div onClick={() => this.props.search(this.state.selectWord)}>🔍</div>
-                        <div onClick={() => this.copy()}>📋</div>
-                        <div onClick={() => speak(this.state.selectWord)}>🔊</div>
+                    <div class="popup" style={popupStyle} onClick={e => this.handlePopupClick(e)}>
+                        <div>🔍</div>
+                        {/*<div>📋</div>*/}
+                        <div>🔊</div>
                     </div>
                 </Portal>
             }
