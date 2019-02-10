@@ -1,6 +1,7 @@
 import {h, Component} from 'preact';
 import {speak} from "../ttf/ttf";
 import Portal from 'preact-portal';
+import fetchJsonp from 'fetch-jsonp'
 
 import './definition.scss'
 
@@ -12,6 +13,19 @@ export default class Definition extends Component {
             selectWord: '',
             locate: {},
         };
+    }
+
+    componentWillMount() {
+        fetchJsonp('http://open.iciba.com/dsapi', {
+            headers: {'content-type': 'application/json'}
+        }).then(res => res.json()).then(json => {
+            this.setState({
+                daily: {
+                    content: json.content,
+                    note: json.note
+                }
+            })
+        })
     }
 
     componentDidUpdate() {
