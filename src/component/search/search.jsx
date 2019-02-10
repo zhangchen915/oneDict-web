@@ -1,6 +1,7 @@
 import {h, Component} from 'preact';
 import VirtualList from 'preact-virtual-list'
 import './search.scss'
+import {setHistorySearch} from "../../store/history";
 
 export default class Search extends Component {
     constructor() {
@@ -18,6 +19,7 @@ export default class Search extends Component {
             offset: e.target.dataset.offset,
             data: []
         });
+        setHistorySearch(this.state.word);
         this.setDefinition();
     }
 
