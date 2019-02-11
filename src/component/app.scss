@@ -102,6 +102,7 @@ body {
     grid-column: 1/2;
     @extend %border;
     background: transparent;
+    overflow: initial;
 }
 
 .definition {

@@ -1,5 +1,7 @@
 .search {
+    position: relative;
     input {
+        box-sizing: border-box;
         border: none;
         outline: none;
         height: 50px;
@@ -10,6 +12,12 @@
         background-color: rgba(255, 255, 255, .2);
     }
     .list {
+        position: absolute;
+        left: 0;
+        top: 50px;
+        width: 100%;
+        border: 1px dashed rgba(255, 255, 255, .4);
+        border-top: 0;
         max-height: 400px;
         overflow: auto;
         -webkit-overflow-scrolling: touch;

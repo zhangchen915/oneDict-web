@@ -27,10 +27,6 @@ export default class Search extends Component {
         this.props.setDefinition(this.state.word, this.state.offset)
     }
 
-    async handleInputChange(e) {
-        console.log(e, this.state.word)
-    }
-
     async handleKeyUp(e) {
         const input = e.currentTarget.value.trim();
         if (e.key === "Enter") {
@@ -54,8 +50,7 @@ export default class Search extends Component {
                    disabled={!this.props.lookup}
                    value={this.state.word}
                    placeholder={'请输入单词'}
-                   onKeyUp={e => this.handleKeyUp(e)}
-                   onChange={e => this.handleInputChange(e)}/>
+                   onKeyUp={e => this.handleKeyUp(e)}/>
             {!!this.state.data.length && <VirtualList
                 class="list"
                 data={this.state.data}

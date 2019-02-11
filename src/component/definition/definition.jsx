@@ -36,7 +36,8 @@ export default class Definition extends Component {
         if (this.props.word !== this.state.word) {
             this.definition.innerHTML = this.props.definition;
             this.setState({
-                word: this.props.word
+                word: this.props.word,
+                selectWord: ''
             })
         }
     }
@@ -83,6 +84,7 @@ export default class Definition extends Component {
                 this.props.definition ? <div className="voice-icon" onClick={() => {
                     speak(this.props.word)
                 }}/> : <div className="daily">
+                    <div>每日一句</div>
                     <div>{this.state.daily.content}</div>
                     <div>{this.state.daily.note}</div>
                 </div>
