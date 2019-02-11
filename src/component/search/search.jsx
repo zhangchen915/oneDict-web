@@ -32,17 +32,18 @@ export default class Search extends Component {
     }
 
     async handleKeyUp(e) {
-        if (e.key === "Enter" && (this.state.word !== e.currentTarget.value)) {
+        const input = e.currentTarget.value.trim();
+        if (e.key === "Enter") {
             this.setState({
-                word: e.currentTarget.value,
-                offset: this.state.data[0].offset,
+                word: input,
+                offset: this.state.data.length ? this.state.data[0].offset : 0,
                 data: []
             });
             this.setDefinition();
-        } else if (e.code.substring(0, 3) === 'Key') {
-            this.setState({
-                word: e.currentTarget.value,
-                data: await this.props.lookup.getWordList(e.currentTarget.value)
+        } else {
+            if (input !== this.state.word) this.setState({
+                word: input,
+                data: await this.props.lookup.getWordList(input)
             });
         }
     }

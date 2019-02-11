@@ -26,6 +26,11 @@ export default class App extends Component {
     }
 
     async search(word, offset) {
+        if (!word) {
+            this.setState({word: '', definition: ''});
+            return;
+        }
+
         if (!offset) {
             const list = await this.state.lookup.getWordList(word.trim());
             if (word === list[0]) offset = list[0].offset

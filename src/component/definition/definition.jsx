@@ -12,6 +12,10 @@ export default class Definition extends Component {
             word: props.word,
             selectWord: '',
             locate: {},
+            daily: {
+                content: '',
+                note: ''
+            }
         };
     }
 
@@ -76,14 +80,19 @@ export default class Definition extends Component {
 
         return (<div className='definition'>
             {
-                this.props.definition && <div className="voice-icon" onClick={() => {
+                this.props.definition ? <div className="voice-icon" onClick={() => {
                     speak(this.props.word)
-                }}/>
+                }}/> : <div className="daily">
+                    <div>{this.state.daily.content}</div>
+                    <div>{this.state.daily.note}</div>
+                </div>
             }
-            <div onMouseUp={event => this.handleMouseUp(event)}
+
+            <div className="content" onMouseUp={event => this.handleMouseUp(event)}
                  onDblClick={event => this.handleMouseUp(event)}
                  ref={definition => this.definition = definition}
             />
+
             {
                 this.state.selectWord && <Portal into="body">
                     <div class="popup" style={popupStyle} onClick={e => this.handlePopupClick(e)}>
