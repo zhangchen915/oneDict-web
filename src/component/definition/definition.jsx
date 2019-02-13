@@ -1,4 +1,5 @@
 import {h, Component} from 'preact';
+import Toolbar from '../toolbar/toolbar'
 import {speak} from "../ttf/ttf";
 import Portal from 'preact-portal';
 import fetchJsonp from 'fetch-jsonp'
@@ -38,7 +39,7 @@ export default class Definition extends Component {
             this.setState({
                 word: this.props.word,
                 selectWord: ''
-            })
+            });
         }
     }
 
@@ -47,14 +48,14 @@ export default class Definition extends Component {
         let position = s.getRangeAt(0).getBoundingClientRect();
 
         const DOCUMENT_SCROLL_TOP = window.pageXOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        this.setState(s.anchorOffset !== s.extentOffset ? {
+        setTimeout(this.setState(!!window.getSelection().toString() ? {
             selectWord: s.toString(),
             locate: {
                 width: position.width,
                 left: position.x,
                 top: position.y + position.height + DOCUMENT_SCROLL_TOP
             }
-        } : {selectWord: ''})
+        } : {selectWord: ''}), 10)
     }
 
     handlePopupClick(e) {
@@ -73,30 +74,34 @@ export default class Definition extends Component {
         this.setState({selectWord: ''})
     }
 
-    render() {
+    render(props, state) {
         const popupStyle = {
-            top: this.state.locate.top,
-            left: this.state.locate.left,
+            top: state.locate.top,
+            left: state.locate.left,
         };
 
         return (<div className='definition'>
             {
                 this.props.definition ? <div className="voice-icon" onClick={() => {
-                    speak(this.props.word)
+                    speak(props.word)
                 }}/> : <div className="daily">
                     <div>每日一句</div>
-                    <div>{this.state.daily.content}</div>
-                    <div>{this.state.daily.note}</div>
+                    <div className="daily-en">{state.daily.content}</div>
+                    <div className="daily-cn">{state.daily.note}</div>
                 </div>
             }
 
-            <div className="content" onMouseUp={event => this.handleMouseUp(event)}
-                 onDblClick={event => this.handleMouseUp(event)}
-                 ref={definition => this.definition = definition}
-            />
+            <div className="content">
+                <div onMouseUp={event => this.handleMouseUp(event)}
+                     onDblClick={event => this.handleMouseUp(event)}
+                     ref={definition => this.definition = definition}
+                />
+            </div>
+
+            {/*<Toolbar word={state.word}/>*/}
 
             {
-                this.state.selectWord && <Portal into="body">
+                state.selectWord && <Portal into="body">
                     <div class="popup" style={popupStyle} onClick={e => this.handlePopupClick(e)}>
                         <div>🔍</div>
                         {/*<div>📋</div>*/}
