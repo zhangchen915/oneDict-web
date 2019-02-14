@@ -2,7 +2,7 @@ import {h, Component} from 'preact';
 import {withText, Text} from 'preact-i18n';
 import Search from '../component/search/search'
 import './app.scss'
-import {parse_mdict} from "../mdict/mdict-parser";
+import {parse_mdict} from "../../mdict/mdict-parser";
 
 import TTF from './ttf/ttf';
 import Definition from './definition/definition'

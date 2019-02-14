@@ -1,4 +1,4 @@
-import ripemd128 from '../../lib/ripemd128';
+import ripemd128 from '../lib/ripemd128';
 
 /*
  * Decrypt encrypted data block of keyword index (attrs.Encrypted = "2").

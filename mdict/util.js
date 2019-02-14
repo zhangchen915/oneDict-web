@@ -35,21 +35,6 @@ export function isTrue(v) {
     return v === 'yes' || v === 'true';
 }
 
-/**
- * Harvest any resolved promises, if all failed then return reasons.
- */
-export function harvest(outcomes) {
-    return Promise.all(outcomes.map(o => o.catch(e => e))).then(results => {
-        if (results.length === 0) return Promise.reject("** NOT FOUND **");
-
-        let solved = [], failed = [];
-        results.forEach(res => {
-            (res instanceof Error) ? failed.push(res) : solved.push(res);
-        });
-        return solved.length ? solved : failed;
-    });
-}
-
 export function readUTF16(buf, len) {
     return new TextDecoder('utf-16le').decode(new Uint8Array(buf, 0, len));
 }
@@ -67,9 +52,6 @@ export function getAdaptKey(attrs, ext) {
  * Create a Record Block Table object to load record block info from record section in mdx/mdd file.
  * Retrived data is stored in an Uint32Array which contains N pairs of (offset_comp, offset_decomp) value,
  * where N is number of record blocks.
- * *创建一个记录块表对象，以从mdx / mdd文件中的记录部分加载记录块信息。
-  * Retrived数据存储在Uint32Array中，其中包含N对（offset_comp，offset_decomp）值，
-  *其中N是记录块的数量。
  *
  * When looking up a given key for its definition:
  *   1. Search KEY_INDEX to locate keyword block containing the given key.

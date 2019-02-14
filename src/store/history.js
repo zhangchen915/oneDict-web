@@ -1,11 +1,11 @@
 const HISTORY = 'history';
 
-export function getAll() {
+export function getAllHistory() {
     return JSON.parse(localStorage.getItem(HISTORY)) || []
 }
 
-export function setHistorySearch(word) {
-    const history = getAll();
+export function setSearchHistory(word) {
+    const history = getAllHistory();
     (history.length > 50 ? history.shift() : history).push(word);
     localStorage.setItem(HISTORY, JSON.stringify(history))
 }

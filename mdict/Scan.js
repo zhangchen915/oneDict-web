@@ -2,7 +2,7 @@ import {
     conseq,
 } from './util'
 
-import {lzo} from '../../lib/lzo1x';
+import {lzo} from '../lib/lzo1x';
 import pako from 'pako'
 
 export class Scan {
