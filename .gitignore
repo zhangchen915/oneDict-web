@@ -36,5 +36,6 @@ Temporary Items
 
 .idea
 .cache
+ctx
 dist
 node_modules

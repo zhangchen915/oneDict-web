@@ -1,0 +1,17 @@
+$TRANSLATION: '#__translation-content__';
+
+#{$TRANSLATION} {
+    &-content {
+        position: absolute;
+        display: none;
+        width: 45px;
+        height: 45px;
+        border: black solid 1px;
+    }
+
+    &-icon {
+        width: 45px;
+        height: 45px;
+        background: url("../../assets/icon.png") no-repeat center;
+    }
+}
