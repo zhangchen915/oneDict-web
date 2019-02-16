@@ -7,7 +7,8 @@
     "build": "parcel build ./src/index.html --public-url ./ --no-source-maps",
     "dev": "parcel watch ./src/index.html  --hmr-hostname 127.0.0.1",
     "ctx:bg": "parcel build ./extension/background/background.js -d ctx --no-source-maps",
-    "ctx:content": "parcel build ./extension/content/content.js -d ctx --no-source-maps"
+    "ctx:content": "parcel build ./extension/content/content.js -d ctx --no-source-maps",
+    "ctx": "npm run ctx:bg && npm run ctx:content"
   },
   "author": "zhangchen915",
   "license": "ISC",
