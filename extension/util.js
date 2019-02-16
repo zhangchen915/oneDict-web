@@ -5,3 +5,7 @@ export function parseHTML(str) {
     tmp.body.innerHTML = str;
     return tmp.body.children[0];
 }
+
+export function toggleShow(dom) {
+    dom.classList.toggle('show')
+}
