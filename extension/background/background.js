@@ -14,7 +14,11 @@ function trans(content) {
             engine = google;
             break;
     }
-    return engine.translate(word)
+    return engine.translate({
+        text: word,
+        from: 'en',
+        to: 'zh-CN'
+    })
 }
 
 chrome.runtime.onInstalled.addListener(() => {

@@ -9,3 +9,7 @@ export function parseHTML(str) {
 export function toggleShow(dom) {
     dom.classList.toggle('show')
 }
+
+export function isEN(text) {
+    return RegExp('^[A-Za-z-]+$').test(text)
+}

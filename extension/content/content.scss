@@ -8,22 +8,18 @@ $TRANSLATION: '#__translation-content__';
     & {
         position: absolute;
         display: none;
-        //width: 45px;
-        //height: 45px;
-        border: black solid 1px;
-        border-radius: 50%;
-        transition: all ease-in-out 1s;
+        border: black 1px solid;
+        transition: all ease-in-out .5s;
     }
 
     &-icon {
         width: 45px;
         height: 45px;
-        background: url("chrome-extension://__MSG_@@extension_id__/assets/icon.png") no-repeat center;
+        background: white url("chrome-extension://__MSG_@@extension_id__/assets/icon.png") no-repeat center;
     }
 
     &-content {
-        display: none;
         width: 500px;
-        height: 300px;
+        max-height: 300px;
     }
 }

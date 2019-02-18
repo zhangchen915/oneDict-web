@@ -23,7 +23,9 @@
     "webRequestBlocking"
   ],
   "background": {
-    "scripts": ["ctx/background.js"]
+    "scripts": [
+      "ctx/background.js"
+    ]
   },
   "content_scripts": [
     {
@@ -32,8 +34,12 @@
         "https://*/*",
         "file:///*"
       ],
-      "js":  ["ctx/content.js"],
-      "css": ["ctx/content.css"],
+      "js": [
+        "ctx/content.js"
+      ],
+      "css": [
+        "ctx/content.css"
+      ],
       "all_frames": true,
       "run_at": "document_start"
     }
