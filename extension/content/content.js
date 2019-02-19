@@ -3,7 +3,7 @@ import {$, isEN, parseHTML} from '../util';
 import './content.scss'
 
 const TRANSLATION = '__translation-content__';
-let $TRANSLATION, $TRANSLATION_ICON, SELECTION;
+let $TRANSLATION, $TRANSLATION_ICON, $TRANSLATION_CONTENT, SELECTION;
 
 window.onload = () => {
     $('body').append(parseHTML(`<div id="${TRANSLATION}">
@@ -13,19 +13,22 @@ window.onload = () => {
     $TRANSLATION_ICON = $(`#${TRANSLATION}-icon`);
 
     $TRANSLATION_ICON.addEventListener('mousedown', async () => {
+        if ($TRANSLATION_CONTENT) return;
+        $TRANSLATION.classList.add('show-content');
         const res = await Action.getTranslationBy('baidu', SELECTION);
 
-        $TRANSLATION.classList.add('show');
         $TRANSLATION.appendChild(parseHTML(`<div id="${TRANSLATION}-content">
             <div id="${TRANSLATION}-word">${SELECTION}</div>
             <div id="${TRANSLATION}-dict">${res.dict.join('/n')}</div>
         </div>`));
+
+        $TRANSLATION_CONTENT = $(`#${TRANSLATION}-content`);
     });
 };
 
 
 document.addEventListener('mouseup', e => {
-    if (e.target.id === `${TRANSLATION}-icon`) return;
+    if (e.target.id.indexOf(TRANSLATION) >= 0) return;
 
     setTimeout(() => {
         const s = getSelection();
@@ -36,9 +39,11 @@ document.addEventListener('mouseup', e => {
             $TRANSLATION.style.cssText = `left: ${position.x}px;top:${position.y + position.height + DOCUMENT_SCROLL_TOP}px`;
             $TRANSLATION.classList.add('show')
         } else {
-            $TRANSLATION.classList.remove('show');
-            $(`#${TRANSLATION}-content`).remove()
+            $TRANSLATION.classList.remove('show', 'show-content');
+            if ($TRANSLATION_CONTENT) {
+                $TRANSLATION_CONTENT.remove();
+                $TRANSLATION_CONTENT = undefined;
+            }
         }
     }, 10)
 });
-
