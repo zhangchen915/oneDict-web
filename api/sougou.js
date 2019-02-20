@@ -1,4 +1,5 @@
 import md5 from 'md5'
+import {params} from "./util";
 
 const headers = {
     'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7',
@@ -48,7 +49,7 @@ export function sougouTranslate(text) {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: Object.entries(payload).map(([k, v]) => k + '=' + v).join('&')
+        body: params(payload)
     }).then(async res => {
         if (res.errorCode === 0) return res;
 
