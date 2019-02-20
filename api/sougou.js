@@ -44,14 +44,10 @@ export function sougouTranslate(text) {
 
     return fetch('https://fanyi.sogou.com/reventondc/translate', {
         method: 'POST',
-        headers: {
-            'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7',
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'X-Requested-With': 'XMLHttpRequest'
-        },
+        headers,
         body: params(payload)
     }).then(async res => {
-        if (res.errorCode === 0) return res;
+        if (res.ok) return res.json();
 
         // 如果翻译失败,尝试从js源码中获取token
         let s = await fetch('https://fanyi.sogou.com/', {headers});
@@ -63,5 +59,17 @@ export function sougouTranslate(text) {
         if (token === m[1]) throw res;
         token = m[1];
         return this.sougouTranslate(text)
+    }).then(res => {
+        const {phonetic, content, usual} = res.dictionary.content[0];
+
+        phonetic.map(e => {
+            e.name = e.type;
+            e.value = e.text;
+            e.ttsURI = e.filename;
+        });
+
+        return {
+            phonetic, content, dict: usual.map(e => e.pos + ' ' + e.values[0])
+        }
     })
 }
