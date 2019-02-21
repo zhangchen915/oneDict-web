@@ -60,7 +60,11 @@ export function sougouTranslate(text) {
         token = m[1];
         return this.sougouTranslate(text)
     }).then(res => {
-        const {phonetic, content, usual} = res.dictionary.content[0];
+        if (!res.isHasOxford) return {isHasOxford: res.isHasOxford, result: res.translate.dit};
+
+        const {phonetic} = res.dictionary.content[0];
+        let dicType = res.dictionary.dicType;
+        let dict = [];
 
         phonetic.map(e => {
             e.name = e.type;
@@ -68,8 +72,12 @@ export function sougouTranslate(text) {
             e.ttsURI = e.filename;
         });
 
-        return {
-            phonetic, content, dict: usual.map(e => e.pos + ' ' + e.values[0])
-        }
+        res.dictionary.content.forEach(e => {
+            dict[e.word] = e.usual.map(u => u.pos + ' ' + u.values[0])
+        });
+
+        console.log(dict)
+
+        return {phonetic, dicType, dict, result: res.translate.dit, isHasOxford: res.isHasOxford}
     })
 }

@@ -13,3 +13,7 @@ export function toggleShow(dom) {
 export function isEN(text) {
     return RegExp('^[A-Za-z-]+$').test(text)
 }
+
+export function playAudio(ttsURI) {
+    new Audio(ttsURI).play();
+}

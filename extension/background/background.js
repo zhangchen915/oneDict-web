@@ -1,8 +1,12 @@
 import {youdao, baidu, google} from 'translation.js'
+import {sougouTranslate} from "../../api/sougou";
 
 function trans(content) {
     let {engineName, word} = content;
     let engine;
+
+    if (engineName === 'sougou') return sougouTranslate(word);
+
     switch (engineName) {
         case 'youdao':
             engine = youdao;
