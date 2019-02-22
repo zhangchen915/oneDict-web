@@ -33,9 +33,3 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     trans(request.content).then(res => sendResponse(res));
     return true;
 });
-
-// chrome.browserAction.onClicked.addListener(() => {
-//     chrome.tabs.create({
-//         url: './dist/index.html'
-//     })
-// });

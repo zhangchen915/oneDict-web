@@ -6,9 +6,9 @@
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'",
   "incognito": "split",
   "icons": {
-    "128": "assets/dictionary.svg",
-    "16": "assets/dictionary.svg",
-    "48": "assets/dictionary.svg"
+    "128": "assets/icon.png",
+    "16": "assets/icon.png",
+    "48": "assets/icon.png"
   },
   "author": "",
   "permissions": [
@@ -44,6 +44,9 @@
       "run_at": "document_start"
     }
   ],
+  "browser_action": {
+    "default_popup": "ctx/popup.html"
+  },
   "web_accessible_resources": [
     "ctx/background.js",
     "assets/*"

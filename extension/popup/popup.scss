@@ -1,0 +1,91 @@
+@import '../../src/common';
+
+$curve: cubic-bezier(.08, .78, .65, .92);
+
+#app {
+    width: 325px;
+    font: $font;
+    @extend %linearGradient;
+}
+
+.translate {
+    padding: 10px;
+    .translate-input {
+        width: 100%;
+        height: 100px;
+        padding: 10px;
+        font: inherit;
+        border: 1px dashed rgba(255, 255, 255, 0.8);
+        border-radius: 3px;
+        background-color: rgba(255, 255, 255, 0.4);
+        box-shadow: 1px 1px 1px #999;
+        resize: none;
+        outline: none;
+    }
+    .result-content {
+        position: relative;
+        width: 100%;
+        height: 150px;
+        border-radius: 3px;
+        &:hover #copyButton {
+            display: block;
+        }
+        &.on {
+            .result {
+                animation: shadow-move 1.2s $curve 1;
+            }
+            #copyConfirmation {
+                animation: copy-confirm-text .8s $curve
+            }
+        }
+    }
+    #copyButton {
+        display: none;
+        padding: .25em 1.25em;
+        font-size: 1.5em;
+        color: #fff;
+        background: #536DFE;
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, .55);
+        margin-bottom: 2em;
+    }
+
+    #copyConfirmation {
+        position: absolute;
+        color: #536DFE;
+        font-size: 3em;
+        text-align: center;
+        font-weight: 700;
+        top: 45%;
+        left: 0;
+        right: 0;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 10;
+    }
+}
+
+@keyframes shadow-move {
+    0% {
+        text-shadow: 0 3px 0 rgba(0, 0, 0, .5);
+    }
+    100% {
+        text-shadow: 0px -40px 5px rgba(0, 0, 0, .0);
+    }
+}
+
+@keyframes copy-confirm-text {
+    0% {
+        opacity: 0;
+    }
+    5% {
+        opacity: .1;
+        transform: scale(.5)
+    }
+    70% {
+        opacity: .8;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5)
+    }
+}
