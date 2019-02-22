@@ -1,0 +1,36 @@
+$font: 1em/1.5 "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+
+%linearGradient {
+    background-image: linear-gradient(-120deg, #26e289, #1a5fa2 100%, red 200%);
+}
+
+%border {
+    margin: 25px;
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    height: 12px;
+    width: 12px
+}
+
+::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: #afafaf;
+    min-height: 28px
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+    border-left: 1px dashed rgba(255, 255, 255, 0.4);
+}
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+}
