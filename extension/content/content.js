@@ -1,5 +1,5 @@
 import {h, app} from "hyperapp";
-import Action from './Action';
+import Action from '../Action';
 import {$, isEN, parseHTML} from '../util';
 import './content.scss'
 import {playAudio} from "../util";
@@ -45,7 +45,7 @@ const actions = {
 
     },
     getTranslation: () => async (state, actions) => {
-        actions.setRes(await Action.getTranslationBy('sougou', state.selection))
+        actions.setRes(await Action.getTranslation(state.selection))
     },
     setRes: res => ({res}),
     iconClick: () => (state, actions) => {

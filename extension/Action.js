@@ -6,7 +6,7 @@ export default class Action {
         )
     };
 
-    static getTranslationBy(engine = 'baidu', word) {
+    static getTranslation(word, engine = 'sougou') {
         return Action.sendCmd('trans', {
             word,
             engineName: engine,
