@@ -49,7 +49,7 @@ export class Scan {
         }
     }
 
-    init(buf, len) {
+    init(buf) {
         this.offset = 0;
         this.buf = buf;
         this.dv = new DataView(buf);

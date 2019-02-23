@@ -3,10 +3,19 @@ import {resolve, parseRes} from "./util";
 let UNDEFINED = void 0;
 
 export class Lookup {
+    stylesheet;
+    cached_keys; // cache latest keys
+    scan;
+    RECORD_BLOCK_TABLE;
+    read;
+    adaptKey;
+    slicedKeyBlock;
+    KEY_INDEX;
+    mutual_ticket;
+
     constructor(read, RECORD_BLOCK_TABLE, adaptKey, slicedKeyBlock, KEY_INDEX, scan, stylesheet, ext) {
         [this.read, this.RECORD_BLOCK_TABLE, this.adaptKey, this.slicedKeyBlock, this.KEY_INDEX, this.scan, this.stylesheet] = Array.from(arguments);
         this.getWordList = ext === 'mdx' ? this.mdx : this.mdd;
-        this.cached_keys;             // cache latest keys
         this.trail = null;            // store latest visited record block & position when search for candidate keys
         this.mutual_ticket = 0;       // a oneway increased ticket used to cancel unfinished pattern match
     }
@@ -181,7 +190,7 @@ export class Lookup {
             };
             if (filter) list = list.filter(filter, this.trail);
 
-            return this.appendMore(word, list, this.KEY_INDEX[kdx.index + 1], expectedSize, filter, ++mutual_ticket)
+            return this.appendMore(word, list, this.KEY_INDEX[kdx.index + 1], expectedSize, filter, ++this.mutual_ticket)
                 .then(result => {
                     if (this.trail.block === this.KEY_INDEX.length - 1) {
                         if (this.trail.offset + this.trail.pos >= this.KEY_INDEX[this.trail.block].num_entries) {
@@ -229,27 +238,26 @@ export class Lookup {
     }
 
     /**
-     * Read content in ArrayBuffer for give keyinfo object
+     * Read content in ArrayBuffer for give keyInfo object
      * @param input record block sliced from the file
      * @param block record block index
-     * @param keyinfo a object with property of record's offset and optional size for the given keyword
+     * @param keyInfo a object with property of record's offset and optional size for the given keyword
      * @return an ArrayBuffer containing resource of image/audio/css/font etc.
      */
-    read_object(input, block, keyinfo) {
+    read_object(input, block, keyInfo) {
         if (input.byteLength > 0) {
-            let scanner = scan.init(input).readBlock(block.comp_size, block.decomp_size);
-            scanner.forward(keyinfo.offset - block.decomp_offset);
-            return scanner.readRaw(keyinfo.size);
+            let scanner = this.scan.init(input).readBlock(block.comp_size, block.decomp_size);
+            scanner.forward(keyInfo.offset - block.decomp_offset);
+            return scanner.readRaw(keyInfo.size);
         } else {
-            throw '* OUT OF FILE RANGE * ' + keyinfo + ' @offset=' + block.comp_offset;
+            throw '* OUT OF FILE RANGE * ' + keyInfo + ' @offset=' + block.comp_offset;
         }
     }
 
 
     /**
      * Find word definition for given keyinfo object.
-     * @return PromiseLike<resolved | never> | never> promise object which will resolve to definition in text. Link to other keyword is followed to get actual definition.
-     * @param word
+     * @return Q.Promise<resolved> | never> | never> promise object which will resolve to definition in text. Link to other keyword is followed to get actual definition.
      * @param offset
      */
     getDefinition(offset) {
@@ -270,10 +278,7 @@ export class Lookup {
      */
     async findResource(keyInfo) {
         let block = this.RECORD_BLOCK_TABLE.find(keyInfo.offset);
-
-        return await this.read(block.comp_offset, block.comp_size).then(res => {
-            return this.read_object(res, block, keyInfo);
-        })
+        return await this.read(block.comp_offset, block.comp_size).then(res => this.read_object(res, block, keyInfo))
     }
 
     mdx(query) {
@@ -292,17 +297,15 @@ export class Lookup {
     }
 
     // TODO: chain multiple mdd file
-    mdd(phrase) {
-        let word = phrase.trim().toLowerCase();
+    mdd(query) {
+        let word = query.trim().toLowerCase();
         word = '\\' + word.replace(/(^[/\\])|([/]$)/, '');
         word = word.replace(/\//g, '\\');
         return this.seekVanguard(word).then(([kdx, idx, list]) => {
-            return list.slice(idx).filter(function (one) {
-                return one.toLowerCase() === word;
-            });
+            return list.slice(idx).filter(e => e.toLowerCase() === word);
         }).then(candidates => {
             if (candidates.length === 0) {
-                throw '*RESOURCE NOT FOUND* ' + phrase;
+                throw '*RESOURCE NOT FOUND* ' + query;
             } else {
                 return this.findResource(candidates[0]);
             }

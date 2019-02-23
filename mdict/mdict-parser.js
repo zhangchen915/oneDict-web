@@ -38,7 +38,7 @@ import {Lookup} from './lookup'
 /**
  * Parse a MDict dictionary/resource file (mdx/mdd).
  * @param file a File/Blob object
- * @return PromiseLike<Lookup | never>{num_blocks: *, num_entries: *, index_len: *, blocks_len: *, len: *} | never | never>{num_blocks: *, num_entries: *, index_len: *, blocks_len: *, len: (*|number)} | never | never> Promise object which will resolve to a lookup function.
+ * @return Q.Promise<Lookup> | never>{num_blocks: *, num_entries: *, index_len: *, blocks_len: *, len: *} | never | never>{num_blocks: *, num_entries: *, index_len: *, blocks_len: *, len: (*|number)} | never | never> Promise object which will resolve to a lookup function.
  */
 export function parse_mdict(file) {
     let KEY_INDEX,                                       // keyword index array
