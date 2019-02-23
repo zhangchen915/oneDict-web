@@ -1,0 +1,13 @@
+{
+    "short_name": "Mdict",
+    "name": "Mdict — Read mdx file",
+    "icons": [
+      {
+        "src": "../assets/icon.png",
+        "type": "image/png",
+        "sizes": "48x48"
+      }
+    ],
+    "start_url": "index.html",
+    "display": "standalone"
+}
