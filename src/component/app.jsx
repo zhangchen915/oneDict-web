@@ -1,8 +1,7 @@
 import {h, Component} from 'preact';
-import {withText, Text} from 'preact-i18n';
 import Search from '../component/search/search'
 import './app.scss'
-import {parse_mdict} from "../../mdict/mdict-parser";
+import {Mdict} from 'mdict-ts'
 
 import TTF from './ttf/ttf';
 import Definition from './definition/definition'
@@ -21,7 +20,7 @@ export default class App extends Component {
         let filesCount = e.currentTarget.files.length;
         this.setState({
             fileHint: filesCount === 1 ? e.currentTarget.files[0].name : `${filesCount} files selected`,
-            lookup: await parse_mdict(e.currentTarget.files[0])
+            lookup: new Mdict(e.currentTarget.files[0])
         });
     }
 

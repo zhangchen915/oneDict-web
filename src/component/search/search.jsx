@@ -54,7 +54,7 @@ export default class Search extends Component {
             {!!this.state.data.length && <VirtualList
                 class="list"
                 data={this.state.data}
-                renderRow={row => <div className={'row'} data-offset={row.offset}>{row.valueOf()}</div>}
+                renderRow={row => <div className={'row'} data-offset={row.offset}>{row.word}</div>}
                 rowHeight={23}
                 overscanCount={5}
                 onClick={e => this.handleClick(e)}
