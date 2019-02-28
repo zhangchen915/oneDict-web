@@ -1,5 +1,4 @@
 import {h, Component} from 'preact';
-import Toolbar from '../toolbar/toolbar'
 import {speak} from "../ttf/ttf";
 import Portal from 'preact-portal';
 import fetchJsonp from 'fetch-jsonp'
@@ -97,8 +96,6 @@ export default class Definition extends Component {
                      ref={definition => this.definition = definition}
                 />
             </div>
-
-            {/*<Toolbar word={state.word}/>*/}
 
             {
                 state.selectWord && <Portal into="body">

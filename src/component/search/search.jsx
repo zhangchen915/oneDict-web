@@ -1,4 +1,5 @@
 import {h, Component} from 'preact';
+import {Localizer, Text} from 'preact-i18n';
 import VirtualList from 'preact-virtual-list'
 import './search.scss'
 import {setSearchHistory} from "../../store/history";
@@ -46,11 +47,13 @@ export default class Search extends Component {
 
     render() {
         return (<div className="search">
-            <input type="text"
-                   disabled={!this.props.lookup}
-                   value={this.state.word}
-                   placeholder={'请输入单词'}
-                   onKeyUp={e => this.handleKeyUp(e)}/>
+            <Localizer>
+                <input type="text"
+                       disabled={!this.props.lookup}
+                       value={this.state.word}
+                       placeholder={<Text id="input">请输入单词</Text>}
+                       onKeyUp={e => this.handleKeyUp(e)}/>
+            </Localizer>
             {!!this.state.data.length && <VirtualList
                 class="list"
                 data={this.state.data}
