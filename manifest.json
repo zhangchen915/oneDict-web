@@ -44,6 +44,11 @@
       "run_at": "document_start"
     }
   ],
+  "options_ui": {
+    "page": "ctx/options.html",
+    "chrome_style": true,
+    "open_in_tab": true
+  },
   "browser_action": {
     "default_popup": "ctx/popup.html"
   },
