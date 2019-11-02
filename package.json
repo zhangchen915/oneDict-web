@@ -5,7 +5,7 @@
   "main": " ",
   "scripts": {
     "web": "parcel build ./src/index.html --public-url ./ --no-source-maps",
-    "web:dev": "parcel watch ./src/index.html  --hmr-hostname 127.0.0.1",
+    "web:dev": "parcel watch ./src/index.html --https",
     "ctx:bg": "parcel build ./extension/background/background.js -d ctx --no-source-maps",
     "ctx:content": "parcel build ./extension/content/content.js -d ctx --no-source-maps",
     "ctx:options": "parcel build ./extension/options/options.html -d ctx --public-url ./ --no-source-maps",
@@ -20,7 +20,7 @@
     "hyperapp": "^1.2.9",
     "md5": "^2.2.1",
     "mdict-ts": "^1.0.0",
-    "preact": "^8.4.1",
+    "preact": "^8.5.3",
     "preact-i18n": "^1.2.2",
     "preact-portal": "^1.1.3",
     "preact-virtual-list": "^0.3.1",
@@ -32,7 +32,7 @@
     "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/runtime": "^7.3.1",
-    "cssnano": "^4.1.9",
+    "cssnano": "^4.1.10",
     "node-sass": "^4.11.0",
     "parcel-plugin-sw-precache": "^1.0.4"
   }

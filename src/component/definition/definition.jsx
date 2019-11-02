@@ -20,7 +20,7 @@ export default class Definition extends Component {
     }
 
     componentWillMount() {
-        fetchJsonp('http://open.iciba.com/dsapi', {
+        fetchJsonp('//open.iciba.com/dsapi', {
             headers: {'content-type': 'application/json'}
         }).then(res => res.json()).then(json => {
             this.setState({
